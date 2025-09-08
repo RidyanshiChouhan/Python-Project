@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      background: #f0f4f8;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 60px;
+    }
+    .game-box {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      min-width: 320px;
+      text-align: center;
+    }
+    h2 {
+      color: #2d6cdf;
+      margin-bottom: 24px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #cfd8dc;
+      outline: none;
+      margin: 8px 0;
+    }
+    button {
+      background: #2d6cdf;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #1a4ca0;
+    }
+    #hint {
+      margin-top: 18px;
+      font-size: 1.1rem;
+      color: #333;
+      min-height: 1.5em;
+    }
+    #attempts {
+      margin-top: 10px;
+      color: #888;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-box">
+    <h2>Number Guessing Game</h2>
+    <p>Guess the number between 1 and 100!</p>
+    <input type="number" id="guess" placeholder="Enter your guess" min="1" max="100">
+    <button onclick="checkGuess()">Guess</button>
+    <div id="hint"></div>
+    <div id="attempts"></div>
+  </div>
+  <script>
+    let number = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guessInput = document.getElementById('guess');
+      const guess = parseInt(guessInput.value);
+      attempts++;
+      let hint = "";
+
+      if (isNaN(guess) || guess < 1 || guess > 100) {
+        hint = "Please enter a valid number between 1 and 100.";
+        attempts--; // Don't count invalid attempts
+      } else if (guess < number) {
+        hint = `Too low!, The number was ${number}`;
+      } else if (guess > number) {
+        hint = `Too high!, The number was ${number}`;
+      } else {
+        hint = `Congratulations! You guessed the number in ${attempts} attempts`;
+        guessInput.disabled = true;
+      }
+
+      document.getElementById('hint').innerText = hint;
+      document.getElementById('attempts').innerText = `Attempts: ${attempts}`;
+      guessInput.value = "";
+      guessInput.focus();
+    }
+  </script>
